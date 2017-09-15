@@ -10,6 +10,55 @@ import net.mateusgabi.ConversorRomanoArabico.Exception.ConversorRomanoArabicoFor
 public class ConversorRomanoArabico {
 
     /**
+     * Método Principal responsável por detectar e realizar Conversão
+     *
+     * @param string
+     */
+    public static String converte(String string) {
+
+        if (isRomano(string)) {
+            return converteParaArabico(string);
+        }
+        else if (isArabico(string)) {
+            try {
+                return converteParaRomano(string);
+            } catch (ConversorRomanoArabicoForaDoLimiteDoSistemaException e) {
+                return null;
+            }
+        }
+
+        return null;
+
+    }
+
+    /**
+     * Recebe um número em arábico, converte para romano e retorna.
+     *
+     * @param string
+     * @return
+     */
+    private static String converteParaRomano(String string) throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
+
+        int i = Integer.parseInt(string);
+
+        if (i <= 0 || i > 1000) {
+            throw new ConversorRomanoArabicoForaDoLimiteDoSistemaException();
+        }
+
+        return "I";
+    }
+
+    /**
+     * Recebe um número em romano, converte para arabico e retorna.
+     *
+     * @param string
+     * @return
+     */
+    private static String converteParaArabico(String string) {
+        return "1";
+    }
+
+    /**
      * Detecta se a string informada é um número arábico válido.
      *
      * @param numero
@@ -72,17 +121,9 @@ public class ConversorRomanoArabico {
      */
     public static boolean isRomano(String string) {
 
-        if(ConversorRomanoArabico.verificaLetras(string)) {
-            if(ConversorRomanoArabico.verificaProximaLetra(string)) {
-
-
-               return ConversorRomanoArabico.verificaLetrasComMaisDeTresSeguidas(string);
-
-
-            }
-        }
-
-        return false;
+        return ConversorRomanoArabico.verificaLetras(string) &&
+                ConversorRomanoArabico.verificaProximaLetra(string) &&
+                ConversorRomanoArabico.verificaLetrasComMaisDeTresSeguidas(string);
     }
 
     /**
@@ -113,7 +154,9 @@ public class ConversorRomanoArabico {
     }
 
     /**
-     * Verifica Regra III. Se a letra a direita é uma letra válida dado a letra atual.
+     * Verifica Regra III e V. Se a letra a direita é uma letra válida
+     * dado a letra atual. E a letra "V", "L" e a "D" não podem se
+     * duplicar porque outras letras ("X", "C", "M") representam seu valor duplicado.
      *
      * @param string
      * @return
@@ -220,23 +263,8 @@ public class ConversorRomanoArabico {
         return true;
     }
 
-    /**
-     * Identifica se é um número romano ou arábico e o converte.
-     * Isto é, se for romano, converte para arábico. Se for arábico,
-     * converte para romano. Se não for nada, dispara exceção.
-     *
-     * @param i
-     * @throws ConversorRomanoArabicoForaDoLimiteDoSistemaException
-     */
-    public static void convert(int i) throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
-
-        if (i <= 0 || i > 1000) {
-            throw new ConversorRomanoArabicoForaDoLimiteDoSistemaException();
-        }
-
-    }
-
     private static final Character[] LETRAS_ROMANO = new Character[] {
        'I', 'V', 'X', 'L', 'C', 'D', 'M'
     };
+
 }
