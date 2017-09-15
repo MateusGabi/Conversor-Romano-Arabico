@@ -156,14 +156,14 @@ public class ConversorRomanoArabico {
     /**
      * Verifica se um Caracter esta em um array de caracter. Essa função é muito útil!
      *
-     * @param proximaLetra
+     * @param c
      * @param characters
      * @return
      */
-    private static boolean inArray(Character proximaLetra, Character[] characters) {
+    private static boolean inArray(Character c, Character[] characters) {
 
         for (Character character: characters) {
-            if (proximaLetra.equals(character)) {
+            if (c.equals(character)) {
                 return true;
             }
         }
@@ -178,20 +178,13 @@ public class ConversorRomanoArabico {
      * @return
      */
     private static boolean verificaLetras(String string) {
-        for (char c : string.toCharArray()) {
-            switch (c) {
-                case 'I':
-                case 'V':
-                case 'X':
-                case 'L':
-                case 'C':
-                case 'D':
-                case 'M':
-                    break;
-                default:
-                    return false;
+
+        for (char c: string.toCharArray()) {
+            if (!inArray(c, LETRAS_ROMANO)) {
+                return false;
             }
         }
+
 
         return true;
     }
