@@ -34,6 +34,11 @@ public class ConversorRomanoArabicoTest {
         Assert.assertFalse(ConversorRomanoArabico.isRomano("XIEIV"));
     }
 
+    @Test
+    public void nao_deve_ser_romano___RegraIII() {
+        Assert.assertFalse(ConversorRomanoArabico.isRomano("ICV"));
+    }
+
     @Test(expected=ConversorRomanoArabicoForaDoLimiteDoSistemaException.class)
     public void limite_inferior_atingido() throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
         ConversorRomanoArabico.convert(-10);
