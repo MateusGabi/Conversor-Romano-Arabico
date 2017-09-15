@@ -2,8 +2,6 @@ package net.mateusgabi.ConversorRomanoArabico;
 
 import net.mateusgabi.ConversorRomanoArabico.Exception.ConversorRomanoArabicoForaDoLimiteDoSistemaException;
 
-import java.util.Arrays;
-import java.util.stream.Stream;
 
 /**
  * @author Mateus Gabi Moreira <mateusgabimoreira@gmail.com>
@@ -75,14 +73,47 @@ public class ConversorRomanoArabico {
     public static boolean isRomano(String string) {
 
         if(ConversorRomanoArabico.verificaLetras(string)) {
-            return ConversorRomanoArabico.verificaProximaLetra(string);
+            if(ConversorRomanoArabico.verificaProximaLetra(string)) {
+
+
+               return ConversorRomanoArabico.verificaLetrasComMaisDeTresSeguidas(string);
+
+
+            }
         }
 
         return false;
     }
 
     /**
-     * Verifica se a letra a direita é uma letra válida dado a letra atual.
+     * Verifica regra IV: se uma letra se repete mais de três vezes.
+     *
+     * @return
+     */
+    private static boolean verificaLetrasComMaisDeTresSeguidas(String string) {
+        if (string.length() <= 3) {
+            return true;
+        }
+
+        for (int i = 0; i < string.length(); i++) {
+            for (int j = i + 1; j < string.length(); j++) {
+
+                if (string.charAt(i) == string.charAt(j)) {
+
+                    if ((j - i) == 3) {
+                        return false;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Verifica Regra III. Se a letra a direita é uma letra válida dado a letra atual.
      *
      * @param string
      * @return
