@@ -54,14 +54,45 @@ public class ConversorRomanoArabicoTest {
         Assert.assertFalse(ConversorRomanoArabico.isRomano("MMMCCCCIII"));
     }
 
-    @Test(expected=ConversorRomanoArabicoForaDoLimiteDoSistemaException.class)
-    public void limite_inferior_atingido() throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
-        ConversorRomanoArabico.convert(-10);
+
+    @Test
+    public void nao_deve_ser_romano___RegraV1() {
+        Assert.assertFalse(ConversorRomanoArabico.isRomano("VV"));
     }
 
-    @Test(expected=ConversorRomanoArabicoForaDoLimiteDoSistemaException.class)
-    public void limite_superior_atingido() throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
-        ConversorRomanoArabico.convert(1001);
+    @Test
+    public void nao_deve_ser_romano___RegraV2() {
+        Assert.assertFalse(ConversorRomanoArabico.isRomano("LL"));
     }
 
+
+    @Test
+    public void nao_deve_ser_romano___RegraV3() {
+        Assert.assertFalse(ConversorRomanoArabico.isRomano("DD"));
+    }
+
+    @Test
+    public void limite_inferior_atingido() {
+        Assert.assertNull(ConversorRomanoArabico.converte("-10"));
+    }
+
+    @Test
+    public void limite_superior_atingido() {
+        Assert.assertNull(ConversorRomanoArabico.converte("1001"));
+    }
+
+    @Test
+    public void converte_arabe_romano() {
+        Assert.assertEquals("1", ConversorRomanoArabico.converte("I"));
+    }
+
+    @Test
+    public void converte_romano_arabe() {
+        Assert.assertEquals("I", ConversorRomanoArabico.converte("1"));
+    }
+
+    @Test
+    public void converte_romano_arabe_() {
+        Assert.assertNull(ConversorRomanoArabico.converte("1www"));
+    }
 }
