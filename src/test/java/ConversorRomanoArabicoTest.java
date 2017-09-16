@@ -2,7 +2,6 @@ import net.mateusgabi.ConversorRomanoArabico.ConversorRomanoArabico;
 import net.mateusgabi.ConversorRomanoArabico.Exception.ConversorRomanoArabicoForaDoLimiteDoSistemaException;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * @author Mateus Gabi Moreira <mateusgabimoreira@gmail.com>

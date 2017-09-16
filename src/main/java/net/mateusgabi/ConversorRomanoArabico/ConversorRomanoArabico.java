@@ -2,9 +2,6 @@ package net.mateusgabi.ConversorRomanoArabico;
 
 import net.mateusgabi.ConversorRomanoArabico.Exception.ConversorRomanoArabicoForaDoLimiteDoSistemaException;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-
 
 /**
  * @author Mateus Gabi Moreira <mateusgabimoreira@gmail.com>
@@ -364,7 +361,6 @@ public class ConversorRomanoArabico {
 
     }
 
-
     /**
      * Dado um número árabe, retorna o número romano inteiro anterior.
      *
@@ -442,6 +438,12 @@ public class ConversorRomanoArabico {
 
     }
 
+    /**
+     * Dado um caracter romano, retorna seu valor em árabe.
+     *
+     * @param character
+     * @return
+     */
     private static Integer getValorRomano(Character character) {
         switch (character){
             case 'I':
@@ -462,6 +464,9 @@ public class ConversorRomanoArabico {
         }
     }
 
+    /**
+     * Todas os números (letras) romanos.
+     */
     private static final Character[] LETRAS_ROMANO = new Character[] {
             'I', 'V', 'X', 'L', 'C', 'D', 'M'
     };
