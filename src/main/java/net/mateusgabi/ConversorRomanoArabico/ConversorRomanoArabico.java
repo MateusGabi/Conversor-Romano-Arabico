@@ -2,6 +2,9 @@ package net.mateusgabi.ConversorRomanoArabico;
 
 import net.mateusgabi.ConversorRomanoArabico.Exception.ConversorRomanoArabicoForaDoLimiteDoSistemaException;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 
 /**
  * @author Mateus Gabi Moreira <mateusgabimoreira@gmail.com>
@@ -45,7 +48,40 @@ public class ConversorRomanoArabico {
             throw new ConversorRomanoArabicoForaDoLimiteDoSistemaException();
         }
 
-        return "I";
+        if (i == 1) {
+            return "I";
+        }
+
+        // Pegamos o romano interior superior a string
+        Character romanoSuperior = numeroRomanoPosterior(string);
+        Integer arabeSuperior = getValorRomano(romanoSuperior);
+
+        Character romanoInferior = numeroRomanoAnterior(string);
+        Integer arabeInferior = getValorRomano(romanoInferior);
+
+        if (i >= 0.90 * arabeSuperior) {
+
+            double i_f = 0.90 * arabeSuperior;
+
+            i = i - (int) (i_f / 1);
+
+            // por conta da regra iii) temos que fazer uma conversão:
+            if (romanoInferior == 'V') romanoInferior = 'I';
+            if (romanoInferior == 'L') romanoInferior = 'X';
+            if (romanoInferior == 'D') romanoInferior = 'C';
+
+
+            String r = String.valueOf(romanoInferior) + String.valueOf(romanoSuperior) + converteParaRomano(String.valueOf(i));
+
+            return r;
+        }
+        else {
+
+            i = i - arabeInferior;
+
+            return romanoInferior + converteParaRomano(String.valueOf(i));
+
+        }
     }
 
     /**
@@ -271,9 +307,9 @@ public class ConversorRomanoArabico {
      * @param string
      * @return
      */
-    public static String numeroRomanoPosterior(String string) throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
+    public static Character numeroRomanoPosterior(String string) throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
 
-    return numeroRomanoProximo(string, true);
+        return numeroRomanoProximo(string, true);
 
     }
 
@@ -286,7 +322,7 @@ public class ConversorRomanoArabico {
      * @param string
      * @return
      */
-    public static String numeroRomanoAnterior(String string) throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
+    public static Character numeroRomanoAnterior(String string) throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
 
         return numeroRomanoProximo(string, false);
 
@@ -301,7 +337,7 @@ public class ConversorRomanoArabico {
      * @return
      * @throws ConversorRomanoArabicoForaDoLimiteDoSistemaException
      */
-    private static String numeroRomanoProximo(String string, boolean isSuperior) throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
+    private static Character numeroRomanoProximo(String string, boolean isSuperior) throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
 
         if (isArabico(string)) {
 
@@ -331,18 +367,18 @@ public class ConversorRomanoArabico {
 
                 }
                 else if (i == 1) {
-                    return "I";
+                    return 'I';
                 }
                 else if (valorProximoRomano == i){
-                    return String.valueOf(LETRAS_ROMANO[j]);
+                    return (LETRAS_ROMANO[j]);
                 }
                 else {
 
                     if (isSuperior) {
-                        return String.valueOf(LETRAS_ROMANO[j]);
+                        return (LETRAS_ROMANO[j]);
                     }
                     else {
-                        return String.valueOf(LETRAS_ROMANO[j - 1]);
+                        return (LETRAS_ROMANO[j - 1]);
                     }
 
                 }
@@ -353,6 +389,26 @@ public class ConversorRomanoArabico {
 
         return null;
 
+    }
+
+    private static Integer getValorRomano(Character character) {
+        switch (character){
+            case 'I':
+                return 1;
+            case 'V':
+                return 5;
+            case 'X':
+                return 10;
+            case 'L':
+                return 50;
+            case 'C':
+                return 100;
+            case 'D':
+                return 500;
+            case 'M':
+                return 1000;
+                default: return -1;
+        }
     }
 
     private static final Character[] LETRAS_ROMANO = new Character[] {
