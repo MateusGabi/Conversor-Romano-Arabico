@@ -273,32 +273,7 @@ public class ConversorRomanoArabico {
      */
     public static String numeroRomanoPosterior(String string) throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
 
-        if (isArabico(string)) {
-
-            Integer i = Integer.parseInt(string);
-
-            if (i <= 0 || i > 1000) {
-                throw new ConversorRomanoArabicoForaDoLimiteDoSistemaException();
-            }
-
-            for (int j = 1, valorProximoRomano = 5; j < LETRAS_ROMANO.length; j++) {
-
-                if (i > valorProximoRomano) {
-
-                    valorProximoRomano = (j % 2) == 0 ? valorProximoRomano * 5 : valorProximoRomano * 2;
-
-                }
-                else if (i == 1) {
-                    return "I";
-                }
-                else {
-                    return String.valueOf(LETRAS_ROMANO[j]);
-                }
-
-            }
-        }
-
-        return null;
+    return numeroRomanoProximo(string, true);
 
     }
 
@@ -313,6 +288,21 @@ public class ConversorRomanoArabico {
      */
     public static String numeroRomanoAnterior(String string) throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
 
+        return numeroRomanoProximo(string, false);
+
+    }
+
+    /**
+     * Método que descobre o maior e o menor número romano inteiro
+     * dado um número árabe.
+     *
+     * @param string
+     * @param isSuperior
+     * @return
+     * @throws ConversorRomanoArabicoForaDoLimiteDoSistemaException
+     */
+    private static String numeroRomanoProximo(String string, boolean isSuperior) throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
+
         if (isArabico(string)) {
 
             Integer i = Integer.parseInt(string);
@@ -325,14 +315,36 @@ public class ConversorRomanoArabico {
 
                 if (i > valorProximoRomano) {
 
+                    // andamos pelos valores das letras. basicamente funciona assim.
+                    // j representa a posicao do proximo elemento no array LETRAS_ROMANO.
+                    // entao, j - 1 representa o anterior.
+                    //
+                    // o valor das letras andam assim:
+                    // 1, 5, 10, 50, 100, 500, 1000
+                    //
+                    // em função de x e começando na posição 1 do array, temos:
+                    // 1, x, x = x*2, x = x*5,cx = x*2, x = x*5, x = x*2
+                    //
+                    // para sabermos se multiplicamos por 2 ou por 5 basta saber se andamos
+                    // um número par ou ímpar. Se par, multiplicamos por 5, se ímpar, por 2.
                     valorProximoRomano = (j % 2) == 0 ? valorProximoRomano * 5 : valorProximoRomano * 2;
 
+                }
+                else if (i == 1) {
+                    return "I";
                 }
                 else if (valorProximoRomano == i){
                     return String.valueOf(LETRAS_ROMANO[j]);
                 }
                 else {
-                    return String.valueOf(LETRAS_ROMANO[j - 1]);
+
+                    if (isSuperior) {
+                        return String.valueOf(LETRAS_ROMANO[j]);
+                    }
+                    else {
+                        return String.valueOf(LETRAS_ROMANO[j - 1]);
+                    }
+
                 }
 
             }
