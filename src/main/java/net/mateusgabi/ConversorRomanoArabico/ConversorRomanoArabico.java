@@ -52,14 +52,16 @@ public class ConversorRomanoArabico {
             return "I";
         }
 
-        // Pegamos o romano interior superior a string
+        // Pegamos o romano inteiro superior a string
         Character romanoSuperior = numeroRomanoPosterior(string);
         Integer arabeSuperior = getValorRomano(romanoSuperior);
 
+        // Pegamos o romano inteiro inferior a string
         Character romanoInferior = numeroRomanoAnterior(string);
         Integer arabeInferior = getValorRomano(romanoInferior);
 
         if (i >= 0.90 * arabeSuperior) {
+
 
             double i_f = 0.90 * arabeSuperior;
 
@@ -69,6 +71,22 @@ public class ConversorRomanoArabico {
             if (romanoInferior == 'V') romanoInferior = 'I';
             if (romanoInferior == 'L') romanoInferior = 'X';
             if (romanoInferior == 'D') romanoInferior = 'C';
+
+
+            // as vezes da problema, por exemplo, 46, temos que ter o valor de 40
+            // e rodar 6, mas ele roda 45, e roda o programa em 1.
+            // para evitar essas percas, temos que recalcular..
+
+            Integer valorRealQueSabemos = getValorRomano(romanoSuperior) - getValorRomano(romanoInferior);
+
+            // no andar da carroagem, ja perdemos o valor de i, então, temos que
+            // recriá-lo tornando int o parâmetro - valorReal que sabemos calcular.
+            //
+            // no exemplo, entao temos que o int será 46 e o valor real é (50 - 10) = 40
+            // e i terá seu valor de 6.
+            //
+            // alguns casos talvez não seja necessário recalcular, mas não sei..
+            i = Integer.parseInt(string) - valorRealQueSabemos;
 
 
             String r = String.valueOf(romanoInferior) + String.valueOf(romanoSuperior) + converteParaRomano(String.valueOf(i));
