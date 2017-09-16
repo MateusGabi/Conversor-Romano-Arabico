@@ -263,8 +263,87 @@ public class ConversorRomanoArabico {
         return true;
     }
 
-    private static final Character[] LETRAS_ROMANO = new Character[] {
-       'I', 'V', 'X', 'L', 'C', 'D', 'M'
-    };
+    /**
+     * Dado um número árabe, retorna o próximo número romano inteiro.
+     *
+     * Exemplo: dado 230, retorna D. Dado 3, retona V.
+     *
+     * @param string
+     * @return
+     */
+    public static String numeroRomanoPosterior(String string) throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
 
+        if (isArabico(string)) {
+
+            Integer i = Integer.parseInt(string);
+
+            if (i <= 0 || i > 1000) {
+                throw new ConversorRomanoArabicoForaDoLimiteDoSistemaException();
+            }
+
+            for (int j = 1, valorProximoRomano = 5; j < LETRAS_ROMANO.length; j++) {
+
+                if (i > valorProximoRomano) {
+
+                    valorProximoRomano = (j % 2) == 0 ? valorProximoRomano * 5 : valorProximoRomano * 2;
+
+                }
+                else if (i == 1) {
+                    return "I";
+                }
+                else {
+                    return String.valueOf(LETRAS_ROMANO[j]);
+                }
+
+            }
+        }
+
+        return null;
+
+    }
+
+
+    /**
+     * Dado um número árabe, retorna o número romano inteiro anterior.
+     *
+     * Exemplo: dado 230, retorna C. Dado 3, retona I.
+     *
+     * @param string
+     * @return
+     */
+    public static String numeroRomanoAnterior(String string) throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
+
+        if (isArabico(string)) {
+
+            Integer i = Integer.parseInt(string);
+
+            if (i <= 0 || i > 1000) {
+                throw new ConversorRomanoArabicoForaDoLimiteDoSistemaException();
+            }
+
+            for (int j = 1, valorProximoRomano = 5; j < LETRAS_ROMANO.length; j++) {
+
+                if (i > valorProximoRomano) {
+
+                    valorProximoRomano = (j % 2) == 0 ? valorProximoRomano * 5 : valorProximoRomano * 2;
+
+                }
+                else if (valorProximoRomano == i){
+                    return String.valueOf(LETRAS_ROMANO[j]);
+                }
+                else {
+                    return String.valueOf(LETRAS_ROMANO[j - 1]);
+                }
+
+            }
+
+        }
+
+        return null;
+
+    }
+
+    private static final Character[] LETRAS_ROMANO = new Character[] {
+            'I', 'V', 'X', 'L', 'C', 'D', 'M'
+    };
 }
