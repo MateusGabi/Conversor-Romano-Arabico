@@ -22,7 +22,7 @@ public class ConversorRomanoArabicoTest {
 
     @Test
     public void deve_ser_romano() {
-        Assert.assertTrue(ConversorRomanoArabico.isRomano("XVI"));
+        Assert.assertTrue(ConversorRomanoArabico.isRomano("CMIII"));
     }
 
     @Test
@@ -166,5 +166,41 @@ public class ConversorRomanoArabicoTest {
     public void deve_converte_para_romano2() {
         Assert.assertEquals("CCXLVI", ConversorRomanoArabico.converte("246"));
     }
+
+    @Test
+    public void deve_converte_para_arabe1() {
+        Assert.assertEquals("903", ConversorRomanoArabico.converte("CMIII"));
+    }
+
+    @Test
+    public void deve_converte_para_arabe() {
+        Assert.assertEquals("902", ConversorRomanoArabico.converte("CMII"));
+    }
+
+    @Test
+    public void deve_converte_para_arabe3() {
+        Assert.assertEquals("901", ConversorRomanoArabico.converte("CMI"));
+    }
+
+    @Test
+    public void deve_converte_para_arabe4() {
+        Assert.assertEquals("900", ConversorRomanoArabico.converte("CM"));
+    }
+
+    @Test
+    public void deve_converte_para_arabe5() {
+        Assert.assertEquals("100", ConversorRomanoArabico.converte("C"));
+    }
+
+    @Test
+    public void nao_deve_converte() {
+        Assert.assertNull(ConversorRomanoArabico.converte("-100"));
+    }
+
+    @Test
+    public void nao_deve_converte1() {
+        Assert.assertNull(ConversorRomanoArabico.converte("Y"));
+    }
+
 
 }

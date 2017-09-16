@@ -109,7 +109,40 @@ public class ConversorRomanoArabico {
      * @return
      */
     private static String converteParaArabico(String string) {
-        return "1";
+
+        // Para trazer um número romano para árabe basta pegar de dois em dois
+        // da ESQUERDA para DIREITA e é sucesso.
+
+        if (string.length() == 1) {
+            return String.valueOf(getValorRomano(string.charAt(0)));
+        }
+
+        Integer valorTotal = 0;
+
+        for (int i = 0; i < string.length(); i = i+2) {
+
+            Integer valorCaracterAtual = getValorRomano(string.charAt(i));
+
+            Integer valorCaracterADireita = 0;
+
+            if (i < string.length() - 1) {
+                valorCaracterADireita = getValorRomano(string.charAt(i + 1));
+            }
+
+            // se o da esquerda for menor, temos que subtrai
+            if (valorCaracterADireita > valorCaracterAtual) {
+                valorTotal += valorCaracterADireita - valorCaracterAtual;
+            }
+            else {
+                valorTotal += valorCaracterADireita + valorCaracterAtual;
+            }
+
+        }
+
+
+        return String.valueOf(valorTotal);
+
+
     }
 
     /**
@@ -256,7 +289,7 @@ public class ConversorRomanoArabico {
                     break;
                 case 'C':
                     valido = inArray(proximaLetra, new Character[] {
-                            'I', 'V', 'X', 'L', 'C'
+                            'I', 'V', 'X', 'L', 'C', 'M'
                     });
                     break;
                 case 'D':
