@@ -16,6 +16,21 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+                <version>3.7.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.2.3</version>
+                <configuration>
+                    <targetClasses>
+                        <param>net.mateusgabi.ConversorRomanoArabico.ConversorRomanoArabico</param>
+                        <param>net.mateusgabi.ConversorRomanoArabico.Exception.ConversorRomanoArabicoForaDoLimiteDoSistemaException</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>net.mateusgabi.ConversorRomanoArabico.Test.ConversorRomanoArabicoTest</param>
+                    </targetTests>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -26,7 +41,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
