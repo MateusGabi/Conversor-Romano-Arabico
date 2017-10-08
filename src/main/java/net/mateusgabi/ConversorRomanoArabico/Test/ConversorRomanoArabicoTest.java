@@ -12,6 +12,28 @@ import org.junit.Test;
 public class ConversorRomanoArabicoTest {
 
     @Test
+    public void valor_romano() {
+        Assert.assertEquals("I", ConversorRomanoArabico.converte("1"));
+        Assert.assertEquals("V", ConversorRomanoArabico.converte("5"));
+        Assert.assertEquals("X", ConversorRomanoArabico.converte("10"));
+        Assert.assertEquals("L", ConversorRomanoArabico.converte("50"));
+        Assert.assertEquals("C", ConversorRomanoArabico.converte("100"));
+        Assert.assertEquals("D", ConversorRomanoArabico.converte("500"));
+        Assert.assertEquals("M", ConversorRomanoArabico.converte("1000"));
+    }
+
+    @Test
+    public void valor_arabe() {
+        Assert.assertEquals("1", ConversorRomanoArabico.converte("I"));
+        Assert.assertEquals("5", ConversorRomanoArabico.converte("V"));
+        Assert.assertEquals("10", ConversorRomanoArabico.converte("X"));
+        Assert.assertEquals("50", ConversorRomanoArabico.converte("L"));
+        Assert.assertEquals("100", ConversorRomanoArabico.converte("C"));
+        Assert.assertEquals("500", ConversorRomanoArabico.converte("D"));
+        Assert.assertEquals("1000", ConversorRomanoArabico.converte("M"));
+    }
+
+    @Test
     public void deve_ser_arabico() {
         Assert.assertTrue(ConversorRomanoArabico.isArabico("1"));
     }
@@ -56,6 +78,10 @@ public class ConversorRomanoArabicoTest {
         Assert.assertFalse(ConversorRomanoArabico.isRomano("MMMCCCCIII"));
     }
 
+    @Test
+    public void nao_deve_ser_romano___RegraIV4() {
+        Assert.assertFalse(ConversorRomanoArabico.isRomano("MMMMM"));
+    }
 
     @Test
     public void nao_deve_ser_romano___RegraV1() {
@@ -79,8 +105,20 @@ public class ConversorRomanoArabicoTest {
     }
 
     @Test
-    public void limite_superior_atingido() {
+    public void limite_inferior() {
+        Assert.assertNull(ConversorRomanoArabico.converte("0"));
+    }
+
+    @Test
+    public void limite_inferior1() {
+        Assert.assertNull(ConversorRomanoArabico.converte("-1"));
+    }
+
+    @Test
+    public void limite_superior() {
+        Assert.assertEquals("M", ConversorRomanoArabico.converte("1000"));
         Assert.assertNull(ConversorRomanoArabico.converte("1001"));
+        Assert.assertNull(ConversorRomanoArabico.converte("1002"));
     }
 
     @Test
@@ -203,5 +241,23 @@ public class ConversorRomanoArabicoTest {
         Assert.assertNull(ConversorRomanoArabico.converte("Y"));
     }
 
+
+    @Test
+    public void numeros_aleatorios() {
+        Assert.assertEquals("LXXIV", ConversorRomanoArabico.converte("74"));
+        Assert.assertEquals("XXV", ConversorRomanoArabico.converte("25"));
+        Assert.assertEquals("CCCLXXIX", ConversorRomanoArabico.converte("379"));
+        Assert.assertEquals("CCCXIX", ConversorRomanoArabico.converte("319"));
+        Assert.assertEquals("DCCCLX", ConversorRomanoArabico.converte("860"));
+        Assert.assertEquals("CCXLII", ConversorRomanoArabico.converte("242"));
+        Assert.assertEquals("XXXVIII", ConversorRomanoArabico.converte("38"));
+        Assert.assertEquals("XXXIX", ConversorRomanoArabico.converte("39"));
+        Assert.assertEquals("XL", ConversorRomanoArabico.converte("40"));
+        Assert.assertEquals("XLIX", ConversorRomanoArabico.converte("49"));
+        Assert.assertEquals("L", ConversorRomanoArabico.converte("50"));
+        Assert.assertEquals("LI", ConversorRomanoArabico.converte("51"));
+        Assert.assertEquals("LII", ConversorRomanoArabico.converte("52"));
+        Assert.assertEquals("CCCLXXXVIII", ConversorRomanoArabico.converte("388"));
+    }
 
 }

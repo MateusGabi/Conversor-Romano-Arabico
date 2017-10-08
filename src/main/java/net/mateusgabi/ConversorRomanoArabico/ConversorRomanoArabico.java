@@ -21,6 +21,13 @@ public class ConversorRomanoArabico {
         }
         else if (isArabico(string)) {
             try {
+
+                Integer i = Integer.parseInt(string);
+
+                if (i <= 0 || i > 1000) {
+                    throw new ConversorRomanoArabicoForaDoLimiteDoSistemaException();
+                }
+
                 return converteParaRomano(string);
             } catch (ConversorRomanoArabicoForaDoLimiteDoSistemaException e) {
                 return null;
@@ -41,12 +48,30 @@ public class ConversorRomanoArabico {
 
         int i = Integer.parseInt(string);
 
-        if (i <= 0 || i > 1000) {
-            throw new ConversorRomanoArabicoForaDoLimiteDoSistemaException();
+        if (i == 0) {
+            return "";
         }
 
-        if (i == 1) {
-            return "I";
+
+
+        // para melhorar..
+        switch (i){
+            case 1:
+                return "I";
+            case 4:
+                return "IV";
+            case 5:
+                return "V";
+            case 10:
+                return "X";
+            case 50:
+                return "L";
+            case 100:
+                return "C";
+            case 500:
+                return "D";
+            case 1000:
+                return "M";
         }
 
         // Pegamos o romano inteiro superior a string
@@ -57,12 +82,21 @@ public class ConversorRomanoArabico {
         Character romanoInferior = numeroRomanoAnterior(string);
         Integer arabeInferior = getValorRomano(romanoInferior);
 
-        if (i >= 0.90 * arabeSuperior) {
+        double fator = 0.9 * arabeSuperior;
+
+        if (i > 39 && i < 50) {
+            // casa dos 40
+
+            i = i - 40;
+
+            return "XL" + converteParaRomano(String.valueOf(i));
 
 
-            double i_f = 0.90 * arabeSuperior;
+        }
+        else if (i >= fator) {
 
-            i = i - (int) (i_f / 1);
+
+            i = i - (int) (fator);
 
             // por conta da regra iii) temos que fazer uma conversão:
             if (romanoInferior == 'V') romanoInferior = 'I';
@@ -299,8 +333,6 @@ public class ConversorRomanoArabico {
                             'I', 'X', 'V', 'L', 'C', 'M'
                     });
                     break;
-                default:
-                    return false;
             }
 
             if (!valido) return false;
