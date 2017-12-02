@@ -20,18 +20,14 @@ public class ConversorRomanoArabico {
             return converteParaArabico(string);
         }
         else if (isArabico(string)) {
-            try {
 
-                Integer i = Integer.parseInt(string);
+            Integer i = Integer.parseInt(string);
 
-                if (i <= 0 || i > 1000) {
-                    throw new ConversorRomanoArabicoForaDoLimiteDoSistemaException();
-                }
-
-                return converteParaRomano(string);
-            } catch (ConversorRomanoArabicoForaDoLimiteDoSistemaException e) {
+            if (i <= 0 || i > 1000) {
                 return null;
             }
+
+            return converteParaRomano(string);
         }
 
         return null;
@@ -44,7 +40,7 @@ public class ConversorRomanoArabico {
      * @param string
      * @return
      */
-    private static String converteParaRomano(String string) throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
+    private static String converteParaRomano(String string) {
 
         int i = Integer.parseInt(string);
 
@@ -84,8 +80,8 @@ public class ConversorRomanoArabico {
 
         double fator = 0.9 * arabeSuperior;
 
-        if (i > 39 && i < 50) {
-            // casa dos 40
+        if (i > 39 && i <= 42) {
+            // se for 40, 41, 42, 42
 
             i = i - 40;
 
@@ -93,14 +89,11 @@ public class ConversorRomanoArabico {
 
 
         }
-        else if (i >= fator) {
-
-
-            i = i - (int) (fator);
+        else
+            if (i >= fator) {
 
             // por conta da regra iii) temos que fazer uma conversão:
             if (romanoInferior == 'V') romanoInferior = 'I';
-            if (romanoInferior == 'L') romanoInferior = 'X';
             if (romanoInferior == 'D') romanoInferior = 'C';
 
 
@@ -143,10 +136,6 @@ public class ConversorRomanoArabico {
 
         // Para trazer um número romano para árabe basta pegar de dois em dois
         // da ESQUERDA para DIREITA e é sucesso.
-
-        if (string.length() == 1) {
-            return String.valueOf(getValorRomano(string.charAt(0)));
-        }
 
         Integer valorTotal = 0;
 
@@ -250,9 +239,6 @@ public class ConversorRomanoArabico {
      * @return
      */
     private static boolean verificaLetrasComMaisDeTresSeguidas(String string) {
-        if (string.length() <= 3) {
-            return true;
-        }
 
         for (int i = 0; i < string.length(); i++) {
             for (int j = i + 1; j < string.length(); j++) {
@@ -279,7 +265,7 @@ public class ConversorRomanoArabico {
      * @param string
      * @return
      */
-    private static boolean verificaProximaLetra(String string) {
+    public static boolean verificaProximaLetra(String string) {
 
         boolean valido = true;
 
@@ -387,7 +373,7 @@ public class ConversorRomanoArabico {
      * @param string
      * @return
      */
-    public static Character numeroRomanoPosterior(String string) throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
+    public static Character numeroRomanoPosterior(String string) {
 
         return numeroRomanoProximo(string, true);
 
@@ -401,7 +387,7 @@ public class ConversorRomanoArabico {
      * @param string
      * @return
      */
-    public static Character numeroRomanoAnterior(String string) throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
+    public static Character numeroRomanoAnterior(String string) {
 
         return numeroRomanoProximo(string, false);
 
@@ -416,57 +402,48 @@ public class ConversorRomanoArabico {
      * @return
      * @throws ConversorRomanoArabicoForaDoLimiteDoSistemaException
      */
-    private static Character numeroRomanoProximo(String string, boolean isSuperior) throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
+    public static Character numeroRomanoProximo(String string, boolean isSuperior) {
 
-        if (isArabico(string)) {
 
-            Integer i = Integer.parseInt(string);
+        Integer i = Integer.parseInt(string);
 
-            if (i <= 0 || i > 1000) {
-                throw new ConversorRomanoArabicoForaDoLimiteDoSistemaException();
+        for (int j = 1, valorProximoRomano = 5; true; j++) {
+
+            if (i > valorProximoRomano) {
+
+                // andamos pelos valores das letras. basicamente funciona assim.
+                // j representa a posicao do proximo elemento no array LETRAS_ROMANO.
+                // entao, j - 1 representa o anterior.
+                //
+                // o valor das letras andam assim:
+                // 1, 5, 10, 50, 100, 500, 1000
+                //
+                // em função de x e começando na posição 1 do array, temos:
+                // 1, x, x = x*2, x = x*5,cx = x*2, x = x*5, x = x*2
+                //
+                // para sabermos se multiplicamos por 2 ou por 5 basta saber se andamos
+                // um número par ou ímpar. Se par, multiplicamos por 5, se ímpar, por 2.
+                valorProximoRomano = (j % 2) == 0 ? valorProximoRomano * 5 : valorProximoRomano * 2;
+
             }
+            else if (i == 1) {
+                return 'I';
+            }
+            else if (valorProximoRomano == i){
+                return (LETRAS_ROMANO[j]);
+            }
+            else {
 
-            for (int j = 1, valorProximoRomano = 5; j < LETRAS_ROMANO.length; j++) {
-
-                if (i > valorProximoRomano) {
-
-                    // andamos pelos valores das letras. basicamente funciona assim.
-                    // j representa a posicao do proximo elemento no array LETRAS_ROMANO.
-                    // entao, j - 1 representa o anterior.
-                    //
-                    // o valor das letras andam assim:
-                    // 1, 5, 10, 50, 100, 500, 1000
-                    //
-                    // em função de x e começando na posição 1 do array, temos:
-                    // 1, x, x = x*2, x = x*5,cx = x*2, x = x*5, x = x*2
-                    //
-                    // para sabermos se multiplicamos por 2 ou por 5 basta saber se andamos
-                    // um número par ou ímpar. Se par, multiplicamos por 5, se ímpar, por 2.
-                    valorProximoRomano = (j % 2) == 0 ? valorProximoRomano * 5 : valorProximoRomano * 2;
-
-                }
-                else if (i == 1) {
-                    return 'I';
-                }
-                else if (valorProximoRomano == i){
+                if (isSuperior) {
                     return (LETRAS_ROMANO[j]);
                 }
                 else {
-
-                    if (isSuperior) {
-                        return (LETRAS_ROMANO[j]);
-                    }
-                    else {
-                        return (LETRAS_ROMANO[j - 1]);
-                    }
-
+                    return (LETRAS_ROMANO[j - 1]);
                 }
 
             }
 
         }
-
-        return null;
 
     }
 

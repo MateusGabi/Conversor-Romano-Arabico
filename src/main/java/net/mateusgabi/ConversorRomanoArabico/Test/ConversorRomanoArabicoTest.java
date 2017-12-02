@@ -84,6 +84,11 @@ public class ConversorRomanoArabicoTest {
     }
 
     @Test
+    public void nao_deve_ser_romano___RegraIV5() {
+        Assert.assertTrue(ConversorRomanoArabico.isRomano("XXXI"));
+    }
+
+    @Test
     public void nao_deve_ser_romano___RegraV1() {
         Assert.assertFalse(ConversorRomanoArabico.isRomano("VV"));
     }
@@ -106,12 +111,11 @@ public class ConversorRomanoArabicoTest {
 
     @Test
     public void limite_inferior() {
-        Assert.assertNull(ConversorRomanoArabico.converte("0"));
-    }
-
-    @Test
-    public void limite_inferior1() {
         Assert.assertNull(ConversorRomanoArabico.converte("-1"));
+        Assert.assertNull(ConversorRomanoArabico.converte("-2"));
+        Assert.assertNull(ConversorRomanoArabico.converte("0"));
+        Assert.assertEquals("I", ConversorRomanoArabico.converte("1"));
+        Assert.assertEquals("II", ConversorRomanoArabico.converte("2"));
     }
 
     @Test
@@ -137,57 +141,37 @@ public class ConversorRomanoArabicoTest {
     }
 
     @Test
-    public void deve_retornar_maior_numeros_romano_sequente() throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
+    public void deve_retornar_maior_numeros_romano_sequente() {
         Assert.assertEquals(new Character('D'), ConversorRomanoArabico.numeroRomanoPosterior("230"));
     }
 
     @Test
-    public void deve_retornar_maior_numeros_romano_sequente1() throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
+    public void deve_retornar_maior_numeros_romano_sequente1() {
         Assert.assertEquals(new Character('V'), ConversorRomanoArabico.numeroRomanoPosterior("3"));
     }
 
-    @Test(expected=ConversorRomanoArabicoForaDoLimiteDoSistemaException.class)
-    public void deve_retornar_maior_numeros_romano_limite_inferior() throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
-        ConversorRomanoArabico.numeroRomanoPosterior("-1");
-    }
-
     @Test
-    public void deve_retornar_maior_numeros_romano_limite_inferior1() throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
+    public void deve_retornar_maior_numeros_romano_limite_inferior1() {
         Assert.assertEquals(new Character('I'), ConversorRomanoArabico.numeroRomanoPosterior("1"));
     }
 
-    @Test(expected=ConversorRomanoArabicoForaDoLimiteDoSistemaException.class)
-    public void deve_retornar_maior_numeros_romano_limite_superior() throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
-        ConversorRomanoArabico.numeroRomanoPosterior("1001");
-    }
-
     @Test
-    public void deve_retornar_maior_numeros_romano_limite_superior1() throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
-        Assert.assertEquals(new Character('M'), ConversorRomanoArabico.numeroRomanoPosterior("1000"));
-    }
-
-    @Test(expected = ConversorRomanoArabicoForaDoLimiteDoSistemaException.class)
-    public void deve_retornar_menor_numero_romano_limite_inferior() throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
-        ConversorRomanoArabico.numeroRomanoAnterior("0");
-    }
-
-    @Test
-    public void deve_retornar_menor_numero_romano_limite_intferior1() throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
+    public void deve_retornar_menor_numero_romano_limite_intferior1() {
         Assert.assertEquals(new Character('I'), ConversorRomanoArabico.numeroRomanoAnterior("3"));
     }
 
     @Test
-    public void deve_retornar_menor_numero_romano_limite_intferior2() throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
+    public void deve_retornar_menor_numero_romano_limite_intferior2()  {
         Assert.assertEquals(new Character('I'), ConversorRomanoArabico.numeroRomanoAnterior("1"));
     }
 
     @Test
-    public void deve_retornar_menor_numero_romano_limite_superior() throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
+    public void deve_retornar_menor_numero_romano_limite_superior() {
         Assert.assertEquals(new Character('M'), ConversorRomanoArabico.numeroRomanoAnterior("1000"));
     }
 
     @Test
-    public void deve_retornar_menor_numero_romano_limite_superior1() throws ConversorRomanoArabicoForaDoLimiteDoSistemaException {
+    public void deve_retornar_menor_numero_romano_limite_superior1() {
         Assert.assertEquals(new Character('D'), ConversorRomanoArabico.numeroRomanoAnterior("999"));
     }
 
@@ -250,14 +234,55 @@ public class ConversorRomanoArabicoTest {
         Assert.assertEquals("CCCXIX", ConversorRomanoArabico.converte("319"));
         Assert.assertEquals("DCCCLX", ConversorRomanoArabico.converte("860"));
         Assert.assertEquals("CCXLII", ConversorRomanoArabico.converte("242"));
+        Assert.assertEquals("XXXVII", ConversorRomanoArabico.converte("37"));
         Assert.assertEquals("XXXVIII", ConversorRomanoArabico.converte("38"));
         Assert.assertEquals("XXXIX", ConversorRomanoArabico.converte("39"));
         Assert.assertEquals("XL", ConversorRomanoArabico.converte("40"));
+        Assert.assertEquals("XLVIII", ConversorRomanoArabico.converte("48"));
         Assert.assertEquals("XLIX", ConversorRomanoArabico.converte("49"));
         Assert.assertEquals("L", ConversorRomanoArabico.converte("50"));
         Assert.assertEquals("LI", ConversorRomanoArabico.converte("51"));
         Assert.assertEquals("LII", ConversorRomanoArabico.converte("52"));
+        Assert.assertEquals("LIII", ConversorRomanoArabico.converte("53"));
+        Assert.assertEquals("LIV", ConversorRomanoArabico.converte("54"));
         Assert.assertEquals("CCCLXXXVIII", ConversorRomanoArabico.converte("388"));
+    }
+
+    @Test
+    public void verificaProximaLetra() {
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("II"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("IV"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("IX"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("VI"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("XI"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("XV"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("XX"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("XL"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("LI"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("LV"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("LX"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("CI"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("CV"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("CX"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("CL"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("CC"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("CM"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("DI"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("DX"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("DV"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("DL"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("DC"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("MI"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("MX"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("MV"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("ML"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("MC"));
+        Assert.assertTrue(ConversorRomanoArabico.verificaProximaLetra("MM"));
+    }
+
+    @Test
+    public void numeroRomanoProximo() {
+        Assert.assertEquals(new Character('C'), ConversorRomanoArabico.numeroRomanoProximo("100", true));
     }
 
 }
